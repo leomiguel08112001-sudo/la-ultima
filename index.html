@@ -1,0 +1,158 @@
+@@ -0,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Para ti, Lucero ✨</title>
+<meta name="theme-color" content="#ff2a7f" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink:#ff2a7f;
+    --bg:#0b0013;
+    --card:#1a0b26aa;
+    --glow:#ff7ab3;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{
+    font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    color:#fff;background: radial-gradient(1200px 600px at 20% -10%, #3a0053 0%, transparent 60%),
+             radial-gradient(900px 500px at 110% 10%, #21002e 0%, transparent 60%),
+             radial-gradient(700px 400px at 50% 120%, #25003a 0%, transparent 60%), var(--bg);
+    overflow:hidden;
+  }
+  #sky{position:fixed;inset:0;z-index:0}
+  .word{
+    position:fixed;left:50%;top:55%;
+    transform:translate(-50%,-50%);opacity:.9;
+    font-weight:700;letter-spacing:.06em;pointer-events:none;
+    text-shadow:0 0 18px var(--glow), 0 0 36px rgba(255,122,179,.6);
+    animation: floatUp 5.5s ease-in forwards;
+    mix-blend-mode:screen;
+    white-space:nowrap;
+  }
+  @keyframes floatUp{
+    from{transform:translate(-50%,20vh) scale(.6);filter:blur(2px);opacity:0}
+    20%{opacity:1}
+    to{transform:translate(-50%,-70vh) scale(1.2);opacity:0}
+  }
+  .card{
+    position:relative;z-index:1;margin:8vh auto 0;max-width:520px;
+    background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+    border:1px solid rgba(255,255,255,.12);border-radius:24px;
+    box-shadow:0 12px 50px rgba(255,42,127,.25), inset 0 0 40px rgba(255,42,127,.06);
+    padding:28px 22px 26px;text-align:center;backdrop-filter: blur(8px);
+  }
+  .title{
+    font-size:clamp(24px,6vw,42px);font-weight:700;line-height:1.1;margin:6px 0 10px;
+  }
+  .subtitle{
+    font-size:clamp(16px,3.6vw,20px);opacity:.85;margin:0 0 6px;
+  }
+  .names{
+    display:flex;gap:8px;justify-content:center;align-items:center;margin:8px 0 16px
+  }
+  .pill{
+    padding:8px 14px;border:1px solid rgba(255,255,255,.16);
+    border-radius:999px;background:rgba(255,255,255,.05);font-weight:600
+  }
+  .heart{filter:drop-shadow(0 0 8px var(--glow));}
+  .controls{display:flex;justify-content:center;gap:12px;margin-top:12px;flex-wrap:wrap}
+  button{
+    cursor:pointer;border:0;border-radius:999px;padding:12px 18px;font-weight:700;
+    background:var(--pink);color:#fff;box-shadow:0 10px 24px rgba(255,42,127,.3);
+    transition:.2s transform ease, .2s box-shadow ease;
+  }
+  button.secondary{
+    background:transparent;border:1px solid rgba(255,255,255,.2)
+  }
+  button:active{transform:translateY(2px);box-shadow:0 4px 12px rgba(255,42,127,.22)}
+  footer{
+    position:fixed;left:0;right:0;bottom:8px;text-align:center;font-size:12px;
+    opacity:.7;z-index:1
+  }
+  .music{
+    display:flex;gap:10px;justify-content:center;align-items:center;margin-top:10px;
+    font-size:13px;opacity:.85
+  }
+  .hint{font-size:12px;opacity:.7;margin-top:4px}
+</style>
+</head>
+<body>
+<canvas id="sky"></canvas>
+
+<div class="card" id="card">
+  <div class="subtitle">Para:</div>
+  <div class="names">
+    <div class="pill">Lucero</div>
+    <svg class="heart" width="22" height="22" viewBox="0 0 24 24" fill="#ff2a7f" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M12 21s-6.716-4.632-9.2-8.26C1.02 10.36 2.105 7 5.35 7c2.078 0 3.37 1.41 4.15 2.57.78-1.16 2.072-2.57 4.15-2.57 3.244 0 4.33 3.36 2.55 5.74C18.716 16.368 12 21 12 21z"/>
+    </svg>
+    <div class="pill">Leo</div>
+  </div>
+
+  <div class="title" id="mainTitle">la pidaña que robo mi corazon</div>
+  <p class="subtitle">Gracias por estar conmigo. Esto es para ti. ✨</p>
+  <div class="controls">
+    <button id="btnFire">Fuegos artificiales</button>
+    <button class="secondary" id="btnWords">Decir “TE AMO”</button>
+  </div>
+  <div class="music">
+    <button class="secondary" id="playMusic">▶ Música</button>
+    <span id="songName">— En un solo día</span>
+  </div>
+  <div class="hint">Consejo: sube el volumen y toca los botones 🥰</div>
+</div>
+
+<footer>Hecho con cariño por Leo 💖</footer>
+
+<audio id="audio" preload="none" src="en_un_solo_dia.mp3"></audio>
+
+<script>
+const NOMBRE_1 = "Lucero pidaña";
+const NOMBRE_2 = "Leo capibara";
+const MENSAJE = "la pidaña que robo mi corazon";
+const MUSICA = "en_un_solo_dia.mp3";
+
+document.querySelectorAll('.pill')[0].textContent = NOMBRE_1;
+document.querySelectorAll('.pill')[1].textContent = NOMBRE_2;
+document.getElementById('mainTitle').textContent = MENSAJE;
+document.getElementById('audio').src = MUSICA;
+document.getElementById('songName').textContent = "— En un solo día";
+
+/* ===== FIREWORKS ===== */
+const canvas = document.getElementById('sky');
+const ctx = canvas.getContext('2d');
+let W,H,fireworks=[];
+function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
+resize(); window.addEventListener('resize',resize);
+
+class Particle{
+  constructor(x,y,color,speed){ this.x=x; this.y=y; this.vx=(Math.random()*2-1)*speed; this.vy=(Math.random()*2-1)*speed; this.alpha=1; this.size=2+Math.random()*2; this.color=color; this.life=60+Math.random()*30; this.gravity=0.04;}
+  update(){ this.life--; this.x+=this.vx; this.y+=this.vy; this.vy+=this.gravity; this.alpha*=0.98; return this.life>0 && this.alpha>0.02; }
+  draw(){ ctx.globalAlpha=this.alpha; ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fillStyle=this.color; ctx.fill(); ctx.globalAlpha=1; }
+}
+
+function boom(x,y){ const colors=['#ff2a7f','#ff7ab3','#ffd1e3','#ffffff','#ffa6c9']; const color=colors[Math.floor(Math.random()*colors.length)]; const speed=2+Math.random()*4; const count=80+Math.random()*40; for(let i=0;i<count;i++) fireworks.push(new Particle(x,y,color,speed)); }
+function loop(){ ctx.fillStyle='rgba(11,0,19,0.25)'; ctx.fillRect(0,0,W,H); fireworks=fireworks.filter(p=>p.update()); fireworks.forEach(p=>p.draw()); requestAnimationFrame(loop); }
+loop();
+setInterval(()=>boom(Math.random()*W, Math.random()*H*0.6+H*0.05),1800);
+
+/* ===== FLOATING WORDS ===== */
+function spawnWord(text){ const el=document.createElement('div'); el.className='word'; el.textContent=text; el.style.fontSize=(16+Math.random()*36)+'px'; el.style.left=(8+Math.random()*84)+'vw'; el.style.animationDuration=(4+Math.random()*4).toFixed(2)+'s'; document.body.appendChild(el); setTimeout(()=>el.remove(),8000); }
+let wordInterval;
+function startWords(){ if(wordInterval) return; spawnWord('TE AMO'); wordInterval=setInterval(()=>spawnWord(Math.random()<.18?'PARA SIEMPRE':'TE AMO'),450); }
+function stopWords(){ clearInterval(wordInterval); wordInterval=null; }
+
+/* ===== BUTTONS ===== */
+document.getElementById('btnFire').addEventListener('click',()=>{ for(let i=0;i<4;i++) setTimeout(()=>boom(Math.random()*W,Math.random()*H*0.7+H*0.1),i*180); });
+document.getElementById('btnWords').addEventListener('click',()=>{ if(wordInterval){ stopWords(); document.getElementById('btnWords').textContent='Decir “TE AMO”'; } else{ startWords(); document.getElementById('btnWords').textContent='Parar “TE AMO”'; } });
+
+const audio=document.getElementById('audio');
+document.getElementById('playMusic').addEventListener('click',async()=>{ if(audio.paused){ await audio.play(); document.getElementById('playMusic').textContent='⏸ Música'; } else{ audio.pause(); document.getElementById('playMusic').textContent='▶ Música'; } });
+</script>
+</body>
+</html>
